@@ -4,6 +4,7 @@ const iconMapping: { [key: string]: string } = {
   "clear-day": "sun",
   "clear-night": "moon",
   "partly-cloudy-day": "cloud-sun",
+  "partly-cloudy-night": "cloud-moon",
   cloudy: "cloud",
   rain: "cloud-showers-heavy",
   snow: "snowflake",
@@ -115,10 +116,10 @@ const WeatherDisplay = ({ city }: { city: string }) => {
   if (weather) {
     return (
       <div className="p-6 border rounded-lg shadow-md bg-white dark:bg-gray-800">
-        <h2 className="text-2xl font-bold mb-4 text-gray-700 dark:text-gray-300">
+        <h2 className="text-2xl text-center font-bold mb-4 text-gray-700 dark:text-gray-300">
           {weather.city}
         </h2>
-        <div className="flex items-center">
+        <div className="flex justify-center items-center">
           <div className="ml-4">
             <p className="text-lg">{weather.temperature}°C</p>
             <p>{weather.condition}</p>
@@ -126,8 +127,8 @@ const WeatherDisplay = ({ city }: { city: string }) => {
           </div>
         </div>
 
-        <div className="mt-4">
-          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+        <div className="mt-8">
+          <h3 className="text-lg text-center font-semibold text-gray-700 dark:text-gray-300">
             3-Day Forecast
           </h3>
           <div className="flex gap-4">

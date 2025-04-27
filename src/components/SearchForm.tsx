@@ -24,11 +24,13 @@ const SearchForm = ({ onSearch }: { onSearch: (city: string) => void }) => {
         "weather_search_history",
         JSON.stringify(newHistory)
       );
+      setCity("");
     }
   };
 
   const handleHistoryClick = (item: string) => {
     onSearch(item);
+    setCity("");
   };
 
   return (

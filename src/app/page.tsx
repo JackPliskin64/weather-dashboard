@@ -7,8 +7,10 @@ const Home = () => {
   const [city, setCity] = useState("");
 
   return (
-    <div className="container mx-auto p-4">
-      <SearchForm onSearch={setCity} />
+    <div className="container mx-auto p-4 space-y-8">
+      <div className="flex justify-center mt-8">
+        <SearchForm onSearch={setCity} />
+      </div>
       {city && <WeatherDisplay city={city} />}
     </div>
   );

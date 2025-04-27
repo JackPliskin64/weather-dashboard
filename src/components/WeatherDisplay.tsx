@@ -12,12 +12,19 @@ const iconMapping: { [key: string]: string } = {
 };
 
 const WeatherDisplay = ({ city }: { city: string }) => {
-  interface WeatherData {
-    city: string;
-    temperature: string;
+  interface ForecastDay {
+    date: string;
+    temp: number;
     condition: string;
     icon: string;
-    forecast: { date: string; temp: string; condition: string; icon: string }[];
+  }
+
+  interface WeatherData {
+    city: string;
+    temperature: number;
+    condition: string;
+    icon: string;
+    forecast: ForecastDay[];
   }
 
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -46,22 +53,28 @@ const WeatherDisplay = ({ city }: { city: string }) => {
         const currentTempInCelsius = fahrenheitToCelsius(
           data.currentConditions.temp
         );
-        const forecastInCelsius = data.days.slice(1, 4).map((day: any) => ({
-          ...day,
-          temp: fahrenheitToCelsius(day.temp),
-        }));
+        const forecastInCelsius: ForecastDay[] = data.days
+          .slice(1, 4)
+          .map(
+            (day: {
+              datetime: string;
+              temp: number;
+              conditions: string;
+              icon: string;
+            }) => ({
+              date: day.datetime,
+              temp: parseFloat(fahrenheitToCelsius(day.temp).toFixed(1)),
+              condition: day.conditions,
+              icon: day.icon,
+            })
+          );
 
         setWeather({
           city: data.address,
-          temperature: currentTempInCelsius.toFixed(1),
+          temperature: parseFloat(currentTempInCelsius.toFixed(1)),
           condition: data.currentConditions.conditions,
           icon: data.currentConditions.icon,
-          forecast: forecastInCelsius.map((day: any) => ({
-            date: day.datetime,
-            temp: day.temp.toFixed(1),
-            condition: day.conditions,
-            icon: day.icon,
-          })),
+          forecast: forecastInCelsius,
         });
       } catch (err) {
         setError((err as Error).message || "Failed to fetch weather data");
@@ -76,7 +89,7 @@ const WeatherDisplay = ({ city }: { city: string }) => {
   }, [city]);
 
   const getIcon = (iconName: string) => {
-    const iconClass = iconMapping[iconName] || "question-circle"; // Si no hay coincidencia, muestra un icono genérico
+    const iconClass = iconMapping[iconName] || "question-circle";
     return <i className={`fas fa-${iconClass} text-4xl`} />;
   };
 

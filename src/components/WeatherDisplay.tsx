@@ -116,30 +116,30 @@ const WeatherDisplay = ({ city }: { city: string }) => {
   if (weather) {
     return (
       <div className="p-6 border rounded-lg shadow-md bg-white dark:bg-gray-800">
-        <h2 className="text-2xl text-center font-bold mb-4 text-gray-700 dark:text-gray-300">
+        <h2 className="text-6xl text-center rounded-2xl bg-blue-900 font-bold mb-4 text-gray-700 dark:text-gray-300">
           {weather.city}
         </h2>
         <div className="flex justify-center items-center">
-          <div className="ml-4">
-            <p className="text-lg">{weather.temperature}°C</p>
-            <p>{weather.condition}</p>
-            {getIcon(weather.icon)}
+          <div className="flex items-center gap-4 mt-8  flex-col">
+            <p className="text-6xl">{weather.temperature}°C</p>
+            <p className="text-2xl text-center">{weather.condition}</p>
+            <span className="mt-8 scale-175">{getIcon(weather.icon)}</span>
           </div>
         </div>
 
         <div className="mt-8">
-          <h3 className="text-lg text-center font-semibold text-gray-700 dark:text-gray-300">
+          <h3 className="mt-12 text-3xl text-center font-semibold text-gray-700 dark:text-gray-300">
             3-Day Forecast
           </h3>
-          <div className="flex gap-4">
+          <div className="flex mt-4 gap-4">
             {weather.forecast.map((day, index) => (
               <div
                 key={index}
-                className="p-4 border rounded-md text-center bg-blue-100 dark:bg-blue-900"
+                className="flex flex-col p-4 border rounded-md text-center bg-blue-100 dark:bg-blue-900 hover:scale-105 transition ease-in-out"
               >
                 <p className="text-gray-700 dark:text-gray-200">{day.date}</p>
-                {getIcon(day.icon)}
-                <p>{day.temp}°C</p>
+                <span className="scale-105 mt-4 mb-4">{getIcon(day.icon)}</span>
+                <p className="text-xl font-bold">{day.temp}°C</p>
                 <p>{day.condition}</p>
               </div>
             ))}

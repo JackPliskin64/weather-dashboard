@@ -13,7 +13,7 @@ const SearchForm = ({ onSearch }: { onSearch: (city: string) => void }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (city) {
+    if (city.trim()) {
       onSearch(city);
       const newHistory = [
         city,
@@ -24,8 +24,8 @@ const SearchForm = ({ onSearch }: { onSearch: (city: string) => void }) => {
         "weather_search_history",
         JSON.stringify(newHistory)
       );
-      setCity("");
     }
+    setCity("");
   };
 
   const handleHistoryClick = (item: string) => {
@@ -63,7 +63,7 @@ const SearchForm = ({ onSearch }: { onSearch: (city: string) => void }) => {
                 setHistory([]);
                 localStorage.removeItem("weather_search_history");
               }}
-              className="text-red-500 text-sm hover:underline"
+              className="text-red-500 text-sm hover:underline cursor-pointer"
             >
               Clear
             </button>

@@ -34,26 +34,26 @@ const SearchForm = ({ onSearch }: { onSearch: (city: string) => void }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col items-center space-y-4"
+      className="flex flex-col items-center space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md w-full max-w-sm"
     >
       <input
         type="text"
         value={city}
         onChange={(e) => setCity(e.target.value)}
         placeholder="Enter a city"
-        className="p-2 border border-gray-300 rounded-lg w-full max-w-sm"
+        className="p-3 border border-gray-300 dark:border-gray-600 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
       />
       <button
         type="submit"
-        className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition"
+        className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition"
       >
         Search
       </button>
 
       {history.length > 0 && (
-        <div className="mt-4 w-full max-w-sm flex flex-col items-start space-y-2">
+        <div className="mt-4 w-full flex flex-col items-start space-y-2">
           <div className="flex w-full justify-between items-center">
-            <h3 className="text-md font-semibold text-gray-700">
+            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
               Recent Searches
             </h3>
             <button
@@ -72,7 +72,7 @@ const SearchForm = ({ onSearch }: { onSearch: (city: string) => void }) => {
               <button
                 key={item}
                 onClick={() => handleHistoryClick(item)}
-                className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full hover:bg-blue-200 transition text-sm"
+                className="bg-blue-100 text-blue-700 px-4 py-1 rounded-full hover:bg-blue-200 transition text-sm"
               >
                 {item}
               </button>

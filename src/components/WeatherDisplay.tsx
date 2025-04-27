@@ -24,6 +24,10 @@ const WeatherDisplay = ({ city }: { city: string }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const fahrenheitToCelsius = (fahrenheit: number) => {
+    return ((fahrenheit - 32) * 5) / 9;
+  };
+
   useEffect(() => {
     const fetchWeather = async () => {
       setLoading(true);
@@ -39,16 +43,22 @@ const WeatherDisplay = ({ city }: { city: string }) => {
 
         const data = await response.json();
 
-        console.log("Icon returned by API:", data.currentConditions.icon); // Agregar aquí
+        const currentTempInCelsius = fahrenheitToCelsius(
+          data.currentConditions.temp
+        );
+        const forecastInCelsius = data.days.slice(1, 4).map((day: any) => ({
+          ...day,
+          temp: fahrenheitToCelsius(day.temp),
+        }));
 
         setWeather({
           city: data.address,
-          temperature: data.currentConditions.temp,
+          temperature: currentTempInCelsius.toFixed(1),
           condition: data.currentConditions.conditions,
           icon: data.currentConditions.icon,
-          forecast: data.days.slice(1, 4).map((day: any) => ({
+          forecast: forecastInCelsius.map((day: any) => ({
             date: day.datetime,
-            temp: day.temp,
+            temp: day.temp.toFixed(1),
             condition: day.conditions,
             icon: day.icon,
           })),
@@ -81,7 +91,7 @@ const WeatherDisplay = ({ city }: { city: string }) => {
   if (error) {
     return (
       <div
-        className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100"
+        className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-red-900 dark:text-red-300"
         role="alert"
       >
         {error}
@@ -91,8 +101,10 @@ const WeatherDisplay = ({ city }: { city: string }) => {
 
   if (weather) {
     return (
-      <div className="p-4 border rounded-md shadow-md">
-        <h2 className="text-xl font-bold">{weather.city}</h2>
+      <div className="p-6 border rounded-lg shadow-md bg-white dark:bg-gray-800">
+        <h2 className="text-2xl font-bold mb-4 text-gray-700 dark:text-gray-300">
+          {weather.city}
+        </h2>
         <div className="flex items-center">
           <div className="ml-4">
             <p className="text-lg">{weather.temperature}°C</p>
@@ -102,11 +114,16 @@ const WeatherDisplay = ({ city }: { city: string }) => {
         </div>
 
         <div className="mt-4">
-          <h3 className="text-lg font-semibold">3-Day Forecast</h3>
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+            3-Day Forecast
+          </h3>
           <div className="flex gap-4">
             {weather.forecast.map((day, index) => (
-              <div key={index} className="p-2 border rounded-md text-center">
-                <p>{day.date}</p>
+              <div
+                key={index}
+                className="p-4 border rounded-md text-center bg-blue-100 dark:bg-blue-900"
+              >
+                <p className="text-gray-700 dark:text-gray-200">{day.date}</p>
                 {getIcon(day.icon)}
                 <p>{day.temp}°C</p>
                 <p>{day.condition}</p>

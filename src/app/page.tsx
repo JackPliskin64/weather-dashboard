@@ -5,13 +5,16 @@ import WeatherDisplay from "../components/WeatherDisplay";
 
 const Home = () => {
   const [city, setCity] = useState("");
+  const handleSearch = (newCity: string) => {
+    setCity(newCity);
+  };
 
   return (
-    <div className="container mx-auto p-4 space-y-8">
-      <div className="flex justify-center mt-8">
-        <SearchForm onSearch={setCity} />
+    <div className="min-h-screen flex justify-center items-center bg-gray-100 dark:bg-gray-900">
+      <div className="flex flex-col items-center space-y-6">
+        <SearchForm onSearch={handleSearch} />
+        {city && <WeatherDisplay city={city} />}
       </div>
-      {city && <WeatherDisplay city={city} />}
     </div>
   );
 };
